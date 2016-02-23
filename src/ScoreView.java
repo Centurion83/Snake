@@ -4,6 +4,7 @@ import java.util.Observer;
 
 import javax.swing.JLabel;
 
+@SuppressWarnings("serial")
 public class ScoreView extends JLabel implements Observer {
 	
 	private Snake snake;

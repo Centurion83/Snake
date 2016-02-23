@@ -2,7 +2,6 @@
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Observable;
-import java.util.Random;
 
 
 public class Snake extends Observable{
@@ -87,6 +86,7 @@ public class Snake extends Observable{
 		return maxY;
 	}
 	
+	@SuppressWarnings("static-access")
 	public void move() {
 			for (int i = 0; i < numberOfSections; i++) {
 				switch(directions.get(i)) {

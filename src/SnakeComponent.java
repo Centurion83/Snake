@@ -2,8 +2,6 @@
 
 
 import java.awt.BorderLayout;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Random;
@@ -11,6 +9,7 @@ import java.util.Random;
 import javax.swing.JPanel;
 
 
+@SuppressWarnings("serial")
 public class SnakeComponent extends JPanel {
 	
 	private SnakeView view;

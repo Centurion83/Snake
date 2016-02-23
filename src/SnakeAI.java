@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class SnakeAI {
 	private Snake snake;
-	private SnakeGUI gui;
+//	private SnakeGUI gui;
 	private String[] directions = new String[] {"Up", "Left", "Right", "Down"};
 	private Random rand;
 	

@@ -1,19 +1,16 @@
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Random;
 
 import javax.swing.*;
 
 
-public class SnakeView extends JPanel implements Observer{
+@SuppressWarnings("serial")
+public class SnakeView extends JPanel implements Observer {
 	
 	private Snake snake;
 	private SnakeComponent gui;
-	private Food food;
 	
 	public SnakeView(Snake snake, SnakeComponent gui) {
 		this.setBackground(Color.WHITE);
