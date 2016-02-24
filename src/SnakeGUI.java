@@ -15,15 +15,19 @@ public class SnakeGUI extends JFrame{
 		this.setSize(width, height);
 		this.setTitle("Snake");
 		this.setFocusable(false);
-		snakeComp = new SnakeComponent();
-		this.add(snakeComp);
 		this.setVisible(true);
-		snakeComp.play();
+		
+		//Set up and run game
+		for (int i = 1; i <= 10; i++) {
+			snakeComp = new SnakeComponent();
+			this.add(snakeComp);
+			snakeComp.play();
+			System.out.println("Steps: " + snakeComp.getSnake().stepsTaken() + " Score: " + (snakeComp.getSnake().getNumberOfSections()-3));
+		}
 	}
 	
 	
 	public static void main(String[] args) {
-		@SuppressWarnings("unused")
-		SnakeGUI frame = new SnakeGUI();
+			SnakeGUI frame = new SnakeGUI();
 	}
 }
