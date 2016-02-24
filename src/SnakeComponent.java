@@ -2,6 +2,7 @@
 
 
 import java.awt.BorderLayout;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Random;
@@ -15,7 +16,7 @@ public class SnakeComponent extends JPanel {
 	private SnakeView view;
 	private ScoreView score;
 	private Snake snake;
-	private Food food;
+	private Point food;
 	private SnakeAI ai;
 	private int width = 500;
 	private int height = 500;
@@ -24,22 +25,6 @@ public class SnakeComponent extends JPanel {
 		this.setLayout(new BorderLayout());
 		this.setFocusable(true);
 		this.requestFocus();
-//		this.addFocusListener(new FocusListener() {
-//
-//			@Override
-//			public void focusGained(FocusEvent e) {
-//				// TODO Auto-generated method stub
-//				
-//				play();
-//			}
-//
-//			@Override
-//			public void focusLost(FocusEvent e) {
-//				// TODO Auto-generated method stub
-////				requestFocus();
-//			}
-//			
-//		});
 		
 		//Model
 		snake = new Snake(100, 100, width-40, height-60, this);
@@ -92,27 +77,11 @@ public class SnakeComponent extends JPanel {
 		});
 		
 		//Add AI
-		ai = new SnakeAI(snake);
-//		ai.run();
+		ai = new SnakeAI(snake, this);
 		
 		//Add components
 		this.add(score, BorderLayout.PAGE_END);
 		this.add(view, BorderLayout.CENTER);
-		
-		
-//		Random rand = new Random();
-//		//Runs the game
-//		while(snake.isAlive()) {
-//			if (food == null) {
-//				food = new Food(20+rand.nextInt((width-40)/100)*100, 20+rand.nextInt((height - 60)/100)*100);
-//				while(snake.contains(food.getX(), food.getY())) {
-//						food = new Food(20+rand.nextInt((width-40)/100)*100, 20+rand.nextInt((height - 60)/100)*100);
-//				}
-//			}
-//			
-//			snake.move();
-//		}
-		
 		
 	}
 	
@@ -121,9 +90,9 @@ public class SnakeComponent extends JPanel {
 		//Runs the game
 		while(snake.isAlive()) {
 			if (food == null) {
-				food = new Food(20+rand.nextInt((width-40)/100)*100, 20+rand.nextInt((height - 60)/100)*100);
-				while(snake.contains(food.getX(), food.getY())) {
-						food = new Food(20+rand.nextInt((width-40)/100)*100, 20+rand.nextInt((height - 60)/100)*100);
+				food = new Point(20+rand.nextInt((width-40)/100)*100, 20+rand.nextInt((height - 60)/100)*100);
+				while(snake.contains(food.x, food.y)) {
+						food = new Point(20+rand.nextInt((width-40)/100)*100, 20+rand.nextInt((height - 60)/100)*100);
 				}
 			}
 			
@@ -131,16 +100,19 @@ public class SnakeComponent extends JPanel {
 			ai.run();
 		}
 	}
+	public Snake getSnake() {
+		return snake;
+	}
 	
 	public SnakeAI getAI() {
 		return ai;
 	}
 	
-	public Food getFood() {
+	public Point getFood() {
 		return food;
 	}
 	
-	public void setFood(Food food) {
+	public void setFood(Point food) {
 		this.food = food;
 	}
 }
