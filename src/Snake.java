@@ -7,12 +7,13 @@ import java.util.Observable;
 public class Snake extends Observable{
 	
 	private int numberOfSections;
+	private int stepsTaken;
 	private int xPos, yPos, maxX, maxY;
 	private int minX = 20;
 	private int minY = 20;
 	private int xSize = 20;
 	private int ySize = 20;
-	private int speed = 200;
+	private int speed = 100;
 	private ArrayList<String> directions, directionQueue;
 	private ArrayList<Point> positions;
 	private String currentDirection;
@@ -24,6 +25,7 @@ public class Snake extends Observable{
 		this.gui = gui;
 		sleeper = new Thread();
 		numberOfSections = 3;
+		stepsTaken = 0;
 		this.currentDirection = "Up";
 		this.xPos = xPos;
 		this.yPos = yPos;
@@ -53,6 +55,10 @@ public class Snake extends Observable{
 	
 	public int getNumberOfSections() {
 		return numberOfSections;
+	}
+	
+	public int stepsTaken() {
+		return stepsTaken;
 	}
 	
 	public int getXSize() {
@@ -110,6 +116,7 @@ public class Snake extends Observable{
 				addSection();
 				gui.setFood(null);
 			}
+			stepsTaken++;
 			try {
 				sleeper.sleep(speed);
 			} catch (InterruptedException e) {
@@ -141,7 +148,7 @@ public class Snake extends Observable{
 	
 	public void moveUp(int index) {
 		positions.get(index).y -= getYSize();
-		if (hasCrashed()) {
+		if (hasCrashed(positions.get(0))) {
 			this.alive = false;
 		} 
 		setChanged();
@@ -150,7 +157,7 @@ public class Snake extends Observable{
 	
 	public void moveRight(int index) {
 		positions.get(index).x += getYSize();
-		if (hasCrashed()) {
+		if (hasCrashed(positions.get(0))) {
 			this.alive = false;
 		} 
 		setChanged();
@@ -159,7 +166,7 @@ public class Snake extends Observable{
 	
 	public void moveDown(int index) {
 		positions.get(index).y += getYSize();
-		if (hasCrashed()) {
+		if (hasCrashed(positions.get(0))) {
 			this.alive = false;
 		}
 		setChanged();
@@ -168,18 +175,18 @@ public class Snake extends Observable{
 	
 	public void moveLeft(int index) {
 		positions.get(index).x -= getYSize();
-		if (hasCrashed()) {
+		if (hasCrashed(positions.get(0))) {
 			this.alive = false;
 		} 
 		setChanged();
 		notifyObservers();
 	}
 	
-	public boolean hasCrashed() {
-		if (positions.get(0).x < getMinX() || 
-				positions.get(0).y < getMinY() ||
-			(positions.get(0).x + getXSize()) > getMaxX() ||
-			(positions.get(0).y + getYSize() > getMaxY())) {
+	public boolean hasCrashed(Point p) {
+		if (p.x < getMinX() || 
+				p.y < getMinY() ||
+			(p.x + getXSize()) > getMaxX() ||
+			(p.y + getYSize() > getMaxY())) {
 			
 			return true;
 					
