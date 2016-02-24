@@ -26,7 +26,7 @@ public class SnakeView extends JPanel implements Observer {
 		//Paint food
 		if (gui.getFood() != null) {
 			g.setColor(Color.green);
-			g.fillRect(gui.getFood().getX(), gui.getFood().getY(), snake.getXSize(), snake.getYSize());
+			g.fillRect(gui.getFood().x, gui.getFood().y, snake.getXSize(), snake.getYSize());
 		}
 		
 		g.setColor(Color.black);
