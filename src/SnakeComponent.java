@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class SnakeComponent extends JPanel {
 	
+	private AILearning brain;
 	private SnakeView view;
 	private ScoreView score;
 	private Snake snake;
@@ -21,7 +22,8 @@ public class SnakeComponent extends JPanel {
 	private int width = 500;
 	private int height = 500;
 	
-	public SnakeComponent() {
+	public SnakeComponent(AILearning brain) {
+		this.brain = brain;
 		this.setLayout(new BorderLayout());
 		this.setFocusable(true);
 		this.requestFocus();
@@ -77,7 +79,7 @@ public class SnakeComponent extends JPanel {
 		});
 		
 		//Add AI
-		ai = new SnakeAI(snake, this);
+		ai = new SnakeAI(snake, this.brain, this);
 		
 		//Add components
 		this.add(score, BorderLayout.PAGE_END);
@@ -94,6 +96,7 @@ public class SnakeComponent extends JPanel {
 				while(snake.contains(food.x, food.y)) {
 						food = new Point(20+rand.nextInt((width-40)/100)*100, 20+rand.nextInt((height - 60)/100)*100);
 				}
+				System.out.println(food);
 			}
 			
 			snake.move();

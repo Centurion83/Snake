@@ -8,6 +8,7 @@ import java.util.Random;
 public class SnakeAI {
 	
 	private Snake snake;
+	private AILearning brain;
 	private SnakeComponent comp;
 	private String[] directions = new String[] {"Up", "Left", "Right", "Down"};
 	private ArrayList<String> weightedDirections;
@@ -15,8 +16,9 @@ public class SnakeAI {
 	private Random rand;
 	private Point goal;
 	
-	public SnakeAI(Snake snake, SnakeComponent comp) {
+	public SnakeAI(Snake snake, AILearning brain, SnakeComponent comp) {
 		this.snake = snake;
+		this.brain = brain;
 		this.comp = comp;
 		goal = comp.getFood();
 		rand = new Random();
@@ -42,22 +44,17 @@ public class SnakeAI {
 //			pickDirections(snake.getPositions().get(0), new Point(comp.getFood().getX(), comp.getFood().getY()));
 //		}
 		ArrayList<Point> adjacent = pickDirectionsSmarter();
-		if (adjacent.size() < 3) {
-			pickDirections(snake.getPositions().get(0), adjacent.get(rand.nextInt(adjacent.size())));
-		} else if (comp.getFood() != null){
-			pickDirections(snake.getPositions().get(0), comp.getFood());
-		}
-//		if (comp.getFood() != null){
-//			Point choice = adjacent.get(0);
-//			Point food = new Point(comp.getFood().getX(), comp.getFood().getY());
-//			for (Point p : adjacent) {
-//				System.out.println(getManhattanDistance(p, food));
-//				if (getManhattanDistance(p, food) < getManhattanDistance(choice, food)) {
-//					choice = p;
-//				}
-//			}
-//			pickDirections(snake.getPositions().get(0), choice);
+//		if (adjacent.size() < 3) {
+//			pickDirections(snake.getPositions().get(0), adjacent.get(rand.nextInt(adjacent.size())));
+//		} else if (comp.getFood() != null){
+//			pickDirections(snake.getPositions().get(0), comp.getFood());
 //		}
+		Point choice = adjacent.get(0);
+		for (Point p : adjacent) {
+			if (brain.getValue(p.x, p.y) > brain.getValue(choice.x, choice.y)) {
+				choice = p;
+			}
+		}
 		nextDirection = weightedDirections.get(rand.nextInt(weightedDirections.size()));
 		if (opposites.get(nextDirection) != currentDirection) {
 			snake.queueDirection(nextDirection);
@@ -78,7 +75,6 @@ public class SnakeAI {
 		 * list once, therefore they are equal weighted so optimality is not ensured.
 		 */
 		weightedDirections = new ArrayList<String>();
-		goal = comp.getFood();
 		if (target.getX() > current.getX()) {
 			//Add right
 			weightedDirections.add("Right");
@@ -120,5 +116,12 @@ public class SnakeAI {
 	
 	public double getManhattanDistance(Point current, Point goal) {
 		return Math.abs(current.getX()-goal.getX()) + Math.abs(current.getY() - goal.getY());
+	}
+	
+	public int[] getGridFromPoint(Point p) {
+		int[] out = new int[2];
+		out[0] = (p.y - 20)/20;
+		out[1] = (p.x - 20)/20;
+		return out;
 	}
 }
